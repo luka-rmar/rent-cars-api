@@ -1,0 +1,34 @@
+import multer from 'multer'
+import { Router } from 'express'
+import { CreateCategoryController } from '../modules/cars/useCases/createCategory/CreateCategoryController'
+import { ListCategoryController } from '../modules/cars/useCases/listCategory/ListCategoryController'
+import { ImportCategoryController } from '../modules/cars/useCases/importCategory/ImportCategoryController'
+
+
+
+
+const categoriesRoutes = Router()
+
+const upload = multer({
+  dest: "./tmp"
+})
+
+const createCategoryController = new CreateCategoryController()
+const listCategoryController = new ListCategoryController()
+const importCategoryController = new ImportCategoryController()
+
+
+
+categoriesRoutes.post("/", createCategoryController.handle)
+categoriesRoutes.get("/", listCategoryController.handle)
+
+categoriesRoutes.post("/file", upload.single("file"), importCategoryController.handle)
+
+
+
+
+
+    
+
+
+export { categoriesRoutes }
